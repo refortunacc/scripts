@@ -195,7 +195,7 @@ set -g default-terminal screen-256color
 EOF
 
 # Installing Solarized for XFCE Terminal
-sudo apt-get install dconf-cli
+sudo apt-get install dconf-cli -y
 git clone https://github.com/sgerrand/xfce4-terminal-colors-solarized.git $GITREPOS/xfce4-solarized
 cd $GITREPOS/xfce4-solarized
 mkdir -p ~/.config/Terminal/
@@ -249,4 +249,4 @@ antigen-apply
 export PATH=\$PATH:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/sbin:/usr/sbin:/usr/local/sbin:/usr/local/bro/bin
 
 EOF
-zsh -l
+#zsh -l
