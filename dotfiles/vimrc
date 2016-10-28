@@ -29,6 +29,9 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'haya14busa/incsearch.vim'
 Bundle 'lsdr/monokai'
 Plugin 'tomasr/molokai'
+Plugin 'luochen1990/rainbow'
+Plugin 'astashov/vim-ruby-debugger'
+Plugin 'ngmy/vim-rubocop'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -120,6 +123,7 @@ nnoremap <Down> gj
 autocmd BufRead,BufNewFile *.md setlocal spell
 autocmd BufRead,BufNewFile *.markdown setlocal spell
 autocmd BufRead,BufNewFile *.json set spell spelllang=en_us
+autocmd FileType javascript setlocal spell spelllang=en_us
 
 
 " Timestamp TODO: Fix the format to something else
@@ -152,6 +156,8 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
+" Setting the leader for easier macro stuff
+let mapleader = ","
 
 " Make sure to install the font, or else this won't work well
 if has('gui_running')
@@ -181,7 +187,7 @@ augroup vimrcEx
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
 
-  autocmd! BufRead,BufNewFile *.sass setfiletype sass 
+  autocmd! BufRead,BufNewFile *.sass setfiletype sass
 
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
   autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
@@ -198,4 +204,5 @@ augroup vimrcEx
   " indent slim two spaces, not four
   autocmd! FileType *.slim set sw=2 sts=2 et
 augroup END
-
+" Macro for joining lines with commas
+let @a = '$a, J'
