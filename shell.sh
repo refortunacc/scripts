@@ -223,7 +223,7 @@ source "\$HOME/.zsh/k/k.sh"
 antigen use oh-my-zsh
 
 # Set the familiar blinks theme
-antigen theme blinks
+antigen theme evan
 
 antigen bundle git 
 antigen bundle ruby 
