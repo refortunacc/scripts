@@ -1,8 +1,24 @@
 #!/usr/bin/env ruby
 
-@dict = "/usr/share/dict/words"
+require "part_of_speech"
+
+@lexpath = "./lexicon.txt"
+@dict = "./words.txt"
+@numPwds = 20
 
 def validate_word( word )
+  analyze = PartOfSpeech.analyze(@lexpath,word)
+  case analyze[0][1] 
+  when  "NN", "NNP", "NNPS", "NNS"
+    # print "Noun\n"
+  when "JJ", "JJR", "JJS"
+    # print "Adjective\n"
+  when "RP"
+    # print "Particle\n"
+  else
+    # print "Other\n"
+    return false
+  end
   if( word.length < 4 || word.length > 9 )
     return false
   elsif( word.include? "'" )
@@ -35,7 +51,7 @@ def select_words( num )
 end
 
 # Generate #num passwords
-pws = 10
-(1..pws).each do 
+
+(1..@numPwds).each do 
   select_words( 4 )
 end
