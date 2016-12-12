@@ -4,6 +4,7 @@ require "awesome_print"
 require "part_of_speech"
 
 #dictfile = "/usr/share/dict/words"
+@lexicon = "/Users/joe.barrett/.rvm/gems/ruby-2.3.0/gems/part_of_speech-0.0.2/spec/files/lexicon.txt"
 @numTerms = 20
 
 # Picks a random word
@@ -23,7 +24,7 @@ def validate( word, order )
     return false
   else
   
-    out = PartOfSpeech.analyze( "/home/barrettj/.rvm/gems/ruby-2.3.0/gems/part_of_speech-0.0.2/spec/files/lexicon.txt", word )
+    out = PartOfSpeech.analyze( @lexicon, word )
     if( out[0][1] =~ /NN/ && order == 2 ) # Noun is good in either position
       return true
     elsif( out[0][1] == "JJ" && order == 1 ) # Adjective is good for position 1
