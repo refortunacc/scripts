@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
 
-require "awesome_print" 
 require "part_of_speech"
 
 #dictfile = "/usr/share/dict/words"
-@lexicon = "/Users/joe.barrett/.rvm/gems/ruby-2.3.0/gems/part_of_speech-0.0.2/spec/files/lexicon.txt"
+@lexicon = "lexicon.txt"
 @numTerms = 20
 
 # Picks a random word

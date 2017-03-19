@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # 
-# Takes a markdown-formatted file, renders as HTML, and launches dillo to view it
+# Takes a markdown-formatted file, renders as HTML, and launches firefox to view it
 require 'redcarpet'
 require 'tempfile'
 
