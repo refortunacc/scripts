@@ -1,6 +1,7 @@
 #!/bin/sh
 GITREPOS=~/gitrepos
 
+# TODO: dircolors solarized, zsh configuration
 sudo apt-get install git vim zsh tmux -y
 
 # Installing Vundle - Vim plugin manager tool
@@ -21,22 +22,47 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 " All plugins go here!
+" Best tab plugins ever
 Plugin 'godlygeek/tabular'
+" Handle markdown well
 Plugin 'plasticboy/vim-markdown'
+" Status line at bottom
 Plugin 'bling/vim-airline'
-Plugin 'mileszs/ack.vim'
-Plugin 'kien/ctrlp.vim'
+" Fuzzy file search
+Plugin 'ctrlpvim/ctrlp.vim'
+" Adds context-aware commenting
 Plugin 'tpope/vim-commentary' " gcc to comment a line
+" Syntax highlighting
 Plugin 'scrooloose/syntastic'
+" Git wrapper
 Plugin 'tpope/vim-fugitive'
+" Rails plugin for Vim
 Plugin 'tpope/vim-rails'
+" Sensible nocompat default settings
 Plugin 'tpope/vim-sensible'
+" Gutter that shows changed lines/etc.
 Plugin 'airblade/vim-gitgutter'
+" Shows list of buffers in command line
 Plugin 'bling/vim-bufferline'
+" Solarized colorset
 Plugin 'altercation/vim-colors-solarized'
+" Improved incremental searching
 Plugin 'haya14busa/incsearch.vim'
-Bundle 'lsdr/monokai'
-Plugin 'tomasr/molokai'
+" Helps create tags with definitions for quick jump-to using Ctags
+Plugin 'xolox/vim-easytags'
+" Lets you bring up a tagbar with :TagbarToggle
+Plugin 'majutsushi/tagbar'
+" Better whitespace highlighting
+Plugin 'ntpeters/vim-better-whitespace'
+" Maps . to repeat plugin commands, not just native commands
+Plugin 'tpope/vim-repeat'
+" Required by other plugins
+Plugin 'xolox/vim-misc'
+" Tmux / Airline integration
+Plugin 'edkolev/tmuxline.vim'
+" Make navigating tmux like vim splits
+Plugin 'christoomey/vim-tmux-navigator'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -85,15 +111,6 @@ filetype on
 
 " Keep 500 lines of command history
 set history=500
-
-" Set the information in the statusbar
-" set statusline=%F%m%r%h%w\ FORMAT=%{&ff}\ TYPE=%Y\ POS=%04l,%04v%p%%\ LEN=%L
-
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" set statusline+=%{fugitive#statusline()}
 
 " Set the statusline to always be shown
 set laststatus=2
@@ -156,12 +173,16 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)
 
+set guifont=Inconsolata\ for\ Powerline:h14
+let g:airline_powerline_fonts = 1
+let g:Powerline_symbols = 'fancy'
 
-
+" FZF configuration
+set rtp+=/usr/local/opt/fzf
 
 " This is supposed to fix the issue of Vim colors being broken in Tmux,
 " but doesn't appear to be working
-if exists('$TMUX')
+if exists('')
 set term=screen-256color
 endif
 EOF
@@ -175,23 +196,45 @@ unbind l
 set -g prefix C-a
 bind-key C-a last-window
 
+# use good colors
+set -g default-terminal xterm-256color
+
+# toggle status line
+bind T set-option -g status
+
+
+# act like vim
+setw -g mode-keys vi
+
 # Reload key
 bind r source-file ~/.tmux.conf
 
-set -g default-terminal "screen-256color"
-set -g history-limit 1000
+set -g history-limit 5000
 
 
-# THEME
-set -g status-bg black
-set -g status-fg white
-set -g status-interval 60
-set -g status-left-length 30
-set -g status-left '#[fg=green](#S) #(whoami)@#H#[default]'
-set -g status-right '#[fg=yellow]#(cut -d " " -f 1-3 /proc/loadavg)#[default] #[fg=blue]%H:%M#[default]'
+# Start numbering at 1 (easier to switch between a few screens)
+set -g base-index 1
+setw -g pane-base-index 1
 
-# set correct term
-set -g default-terminal screen-256color
+# toggle status line
+bind T set-option -g status
+
+# put statusline on top
+set-option -g status-position top
+
+# Smart pane switching with awareness of Vim splits.
+# See: https://github.com/christoomey/vim-tmux-navigator
+is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
+bind-key -n C-h if-shell "$is_vim" "send-keys C-h"  "select-pane -L"
+bind-key -n C-j if-shell "$is_vim" "send-keys C-j"  "select-pane -D"
+bind-key -n C-k if-shell "$is_vim" "send-keys C-k"  "select-pane -U"
+bind-key -n C-l if-shell "$is_vim" "send-keys C-l"  "select-pane -R"
+bind-key -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+
+# tmuxline integration
+if-shell "test -f ~/.tmuxline" "source ~/.tmuxline"
+
+set-option -g default-shell /usr/local/bin/zsh
 EOF
 
 # Installing Solarized for XFCE Terminal
