@@ -4,6 +4,7 @@ require "part_of_speech"
 
 @lexpath = "./lexicon.txt"
 @dict = "./words.txt"
+@dict = "./google-10000-english.txt"
 @numPwds = 20
 
 def validate_word( word )
